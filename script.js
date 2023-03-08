@@ -53,8 +53,10 @@ function getLatest(dataArray) {
     indicator = "🔴";
   }
   let secondsSince = parseInt(Date.now()/1000) - latestData["epoch-time"];
+  let humanTime = convertEpochToSpecificTimezone(latestData["epoch-time"], -4);
   // console.log(latestData);
   let newString = indicator + " North 2 Bathroom - as of " + secondsSince + " seconds ago";
+  // let newString = indicator + " North 2 Bathroom - @ " + humanTime;
   document.getElementById('result').innerHTML = newString;
 }
 
@@ -62,3 +64,10 @@ function getLatest(dataArray) {
 // This is the command that actually starts the script:
 window.addEventListener('DOMContentLoaded', setup);
 
+function convertEpochToSpecificTimezone(timeEpoch, offset){
+  var d = new Date(timeEpoch);
+  var utc = d.getTime() + (d.getTimezoneOffset() * 60000);  //This converts to UTC 00:00
+  var nd = new Date(utc + (3600000*offset));
+  return nd.toLocaleString();
+}
+// convertEpochToSpecificTimezone(1495159447834, +3)
